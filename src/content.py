@@ -154,3 +154,71 @@ STUDIES = [
   stack='Interactive HTML prototypes, ready to build as an offline-first iPad web app.',
  ),
 ]
+
+# Words to pick out in lime in each case-study headline.
+HL = {
+ 'yarta': 'before the first meeting.',
+ 'recycle-group': 'easy to buy from.',
+ 'echeck': 'not in a binder.',
+ 'recycled-metals': 'weighed and reported.',
+ 't-waste': 'live in two days.',
+ 'nunjara': 'in six taps.',
+}
+for _s in STUDIES:
+    _s['hl'] = HL.get(_s['slug'], '')
+
+# ---------------------------------------------------------------------------
+# Big Digital agency proof. Everything below is as published on big.com.au
+# (read 24 Nov 2026). Don't add figures or quotes that aren't on that site.
+# ---------------------------------------------------------------------------
+BRAND = dict(
+  name='Big Digital', legal='Adspire Group Pty Ltd',
+  phone='1300 366 438', tel='1300366438', email='info@big.com.au',
+  address='116 Furner Ave, North Geelong VIC 3215',
+  site='https://big.com.au/',
+  linkedin='https://www.linkedin.com/company/big-digital-aus/',
+  facebook='https://www.facebook.com/profile.php?id=61585934444174',
+)
+
+RESULTS = [  # (number, decimals, suffix, label)
+  ('7.2', 1, '', 'Average ROAS'),
+  ('500', 0, 'K+', 'Sales orders'),
+  ('650', 0, 'K+', 'Leads generated'),
+  ('200', 0, 'M+', 'Revenue driven'),
+]
+
+GROWTH = [  # (metric, label, client, image)
+  ('−30%', 'CPA', 'Junk.com.au', 'grow-junk'),
+  ('+320%', 'Organic traffic', 'Zeal Refrigeration Group', 'grow-zeal'),
+  ('9.6x', 'ROAS', 'Tobe Healthcare', 'grow-tobe'),
+  ('−20%', 'CPA', 'Lockcorp Locksmith', 'grow-lockcorp'),
+  ('+200%', 'Revenue', 'Bayside Blades', 'grow-bayside'),
+]
+FEATURED_GROWTH = dict(metric='+300%', label='Leads', client='24H Melbourne Plumbers',
+  quote='We hit $50K+ in revenue in our very first month with Big Digital.', who='Dean E., Owner')
+
+TESTIMONIALS = [  # (quote, name, role, company, avatar)
+  ('Our website wasn’t converting and we couldn’t generate enough sales through it. Andy and the team rebuilt the site, fixed the technical issues that had been holding us back, and rolled out a proper SEO, Google Ads and Meta Ads strategy. Sales were up 200% within the first three months.',
+   'Mathew Y.', 'Director', 'Precision Safes', 't-mathew'),
+  ('Since Big Digital took over our Google Ads account, our cost per lead has dropped by 30% consistently, and we’re getting more jobs from the same spend. It’s good to finally have someone who actually cares about our business.',
+   'Todd M.', 'Operations Manager QLD', 'Junk.com.au', 't-todd'),
+  ('We run a big budget on Google Ads, so we needed someone genuinely skilled with search advertising. After a stressful run with our previous agency, Andy turned things around fast, rebuilding our landing pages and restructuring the account.',
+   'Dean E.', 'Owner', '24 Hour Melbourne Plumbers', 't-dean'),
+  ('In over 20 years in business, this has probably been the most positive experience I’ve had with an agency. Andy improved our SEO ranking and optimised our Google Ads account, which gave us an immediate 50% lower cost per acquisition within the first three months.',
+   'Josh S.', 'Owner', 'Cheap And Best Cleaning', 't-josh'),
+]
+
+SERVICES = [  # (name, line, url, tint)
+  ('Google Ads', 'Paid search built to chase conversions, not clicks, run by certified Google Partners.', 'https://big.com.au/services/google-ads/', '#EBE4F7'),
+  ('Social Media Marketing', 'Creative-led campaigns across Meta, TikTok and Pinterest that turn scrollers into buyers.', 'https://big.com.au/services/social-media-marketing/', '#D7FFBF'),
+  ('SEO & AI Search', 'Technical SEO, answer-first content and authority, so you show up on Google and in AI answers.', 'https://big.com.au/services/seo-aeo-geo/', '#FFD3D3'),
+  ('Web & App Development', 'Fast sites built to convert, and custom apps that replace another monthly subscription.', 'https://big.com.au/services/web-app-development/', '#FFE0B3'),
+  ('CRM & Automation', 'Email and automation flows that turn the customers you already have into repeat revenue.', 'https://big.com.au/services/crm-automation/', '#CDE6FF'),
+  ('AI Automation', 'Practical AI built into your workflows, so routine admin gets done without adding headcount.', 'https://big.com.au/services/ai-automation/', '#BDFCF5'),
+  ('Web Hosting & Maintenance', 'Hosting, security and updates handled, so your site stays fast, safe and live.', 'https://big.com.au/services/web-hosting-maintenance/', '#FFF3B0'),
+]
+
+# Client names shown in the marquee: all appear on big.com.au's client strip or in the work below.
+CLIENTS = ['Junk.com.au', 'Recycle Group', 'Zeal Refrigeration', 'Tobe Healthcare', '24H Melbourne Plumbers',
+           'Lockcorp', 'Bayside Blades', 'Precision Safes', 'Cheap And Best Cleaning', 'The Mattress Recycling Company',
+           'Nunjara', 'Hektik Automotive']
