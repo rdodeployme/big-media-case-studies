@@ -67,8 +67,9 @@ def footer(pre):
 </body></html>'''
 
 
-def frame(img, alt, pre, url='', lazy=True, zoom=True):
-    bar = f'<div class="bar"><i></i><i></i><i></i>{f"<em>{e(url)}</em>" if url else ""}</div>'
+def frame(img, alt, pre, url='', lazy=True, zoom=True, bare=False):
+    # bare: the image is already a composed device scene, so no browser bar
+    bar = '' if bare else f'<div class="bar"><i></i><i></i><i></i>{f"<em>{e(url)}</em>" if url else ""}</div>'
     z = f' data-zoom="{pre}img/{img}.webp" data-cap="{e(alt)}" role="button" tabindex="0"' if zoom else ''
     return f'<div class="frame"{z}>{bar}<img src="{pre}img/{img}.webp" alt="{e(alt)}" width="1600" height="1000"{" loading=lazy decoding=async" if lazy else ""}></div>'
 
@@ -101,8 +102,8 @@ def study(i, s):
     meta = ''.join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in [('Client', e(s['client'])), ('Service', e(s['service'])), ('Year', s['year']), ('Live', live)])
     stats = ''.join(stat(n, l, k == 0) for k, (n, l) in enumerate(s['stats']))
     feats = ''.join(f'''<article class="feat"><div class="ft rv"><div class="num">0{k+1}</div><h3>{e(h)}</h3><p>{e(p)}</p></div>
-<figure class="rv d1">{frame(im, cap, pre)}<figcaption>{e(cap)}</figcaption></figure></article>''' for k, (h, p, im, cap) in enumerate(s['features']))
-    gal = ''.join(f'<figure>{frame(im, cap, pre)}<figcaption>{e(cap)}</figcaption></figure>' for im, cap in s['gallery'])
+<figure class="rv d1">{frame(im, cap, pre, bare=s.get('bare', False))}<figcaption>{e(cap)}</figcaption></figure></article>''' for k, (h, p, im, cap) in enumerate(s['features']))
+    gal = ''.join(f'<figure>{frame(im, cap, pre, bare=s.get('bare', False))}<figcaption>{e(cap)}</figcaption></figure>' for im, cap in s['gallery'])
     phones = ''.join(f'<div class="phone rv d{k}"><img src="{pre}img/{p}.webp" alt="{e(s["name"])} on a phone" loading="lazy" width="390" height="800"></div>' for k, p in enumerate(s['phones']))
     tl = ''
     if s['timeline']:
@@ -125,7 +126,7 @@ def study(i, s):
   <h1 class="rv d1">{hl(s['title'], s.get('hl'))}</h1>
   <p class="c-line rv d2">{e(s['line'])}</p>
   <dl class="c-meta rv d3">{meta}</dl>
-  <div class="stagewrap"><div class="tilt">{frame(s['hero'], s['name'], pre, s.get('heroUrl') or (short(s['url']) if s['url'] else 'prototype'), lazy=False)}</div></div>
+  <div class="stagewrap"><div class="tilt">{frame(s['hero'], s['name'], pre, s.get('heroUrl') or (short(s['url']) if s['url'] else 'prototype'), lazy=False, bare=s.get('bare', False))}</div></div>
 </div></section>
 <section class="stats"><div class="wrap"><div class="g">{stats}</div></div></section>
 <nav class="subnav" aria-label="Sections"><div class="wrap"><span class="nm">{e(s['name'])}</span>{sub}</div></nav>
