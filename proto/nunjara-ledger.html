@@ -1,0 +1,420 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<style>
+  :root{
+    --ink:#20251f; --ink2:#3a4037; --muted:#6f6a5c; --muted2:#938c7c;
+    --paper:#f4f1e8; --panel:#fffdf7; --card:#ffffff; --line:#e3ddce; --line2:#efe9db;
+    --gold:#c8901c; --gold-soft:#f6ecd3; --green:#324f3a; --green2:#557057; --red:#a43f32;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --sh:0 24px 60px -30px rgba(32,37,31,.30);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.55}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  .serif{font-family:var(--serif)} .mono{font-family:var(--mono)}
+  svg.ic{width:1em;height:1em;stroke:currentColor;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  header.top{position:sticky;top:0;z-index:20;background:rgba(244,241,232,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex;align-items:center;gap:14px;height:66px}
+  .logo{display:flex;align-items:center;gap:11px}
+  .mark{width:32px;height:32px;border-radius:9px;background:var(--green);color:var(--panel);display:grid;place-items:center;font-weight:700;font-size:17px;font-family:var(--serif)}
+  .brand-name{font-family:var(--serif);font-size:18px;font-weight:600}
+  .brand-sub{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-top:-1px}
+  .seg{margin-left:auto;display:flex;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:4px;gap:3px}
+  .seg button{border:0;background:transparent;color:var(--muted);font-weight:700;font-size:13px;padding:9px 15px;border-radius:8px;display:inline-flex;align-items:center;gap:8px}
+  .seg button.on{background:var(--ink);color:var(--panel)}
+
+  .intro{padding:24px 0 4px}
+  .kick{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .kick .ln{width:24px;height:1px;background:var(--gold)}
+  .intro p{color:var(--muted);margin:12px 0 0;font-size:14.5px;max-width:70ch}.intro p b{color:var(--ink)}
+
+  .surface{display:none;padding:22px 0 60px}
+  .surface.on{display:block}
+
+  .stage{display:grid;grid-template-columns:minmax(320px,380px) 1fr;gap:40px;align-items:start}
+  @media(max-width:880px){.stage{grid-template-columns:1fr;gap:26px}}
+  .tablet{background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:11px;box-shadow:var(--sh)}
+  .screen{background:var(--paper);border-radius:16px;overflow:hidden;border:1px solid var(--line2);display:flex;flex-direction:column;min-height:566px}
+  .apphead{display:flex;align-items:center;gap:9px;padding:13px 15px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .apphead .mark{width:26px;height:26px;font-size:13px;border-radius:7px}
+  .apphead b{font-family:var(--serif);font-size:15px;font-weight:600}
+  .op{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--green);background:var(--panel);border:1px solid var(--line);padding:6px 11px;border-radius:999px}
+  .op svg{color:var(--green2)}
+  .steps{display:flex;gap:0;padding:15px 16px 4px;align-items:center}
+  .steps .sg{flex:1;height:3px;background:var(--line);border-radius:2px;margin:0 3px;transition:background .2s}
+  .steps .sg.done{background:var(--green2)} .steps .sg.now{background:var(--gold)}
+  .stepnum{font-size:11px;color:var(--muted2);font-weight:700;letter-spacing:.06em;padding:0 18px 8px}.stepnum b{color:var(--ink)}
+  .body{padding:6px 18px 12px;flex:1}
+  .pane{display:none;animation:fade .25s ease}.pane.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.pane,.view{animation:none}}
+  h3.q{font-family:var(--serif);font-weight:600;font-size:1.6rem;margin:8px 0 3px;letter-spacing:-.01em}
+  .qh{color:var(--muted);font-size:13.5px;margin:0 0 16px}
+  .fld{margin-bottom:13px}
+  .fld label{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .fld label svg{color:var(--gold)}
+  .inp{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--ink);font-size:16px;font-weight:600;font-family:var(--sans)}
+  .inp::placeholder{color:var(--muted2);font-weight:500}
+  .inp:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);outline:none}
+  .qp{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+  .qp .l{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted2);font-weight:700;margin-right:2px}
+  .chip{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:10px 14px;font-weight:700;font-size:14px}
+  .chip.pick{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
+  .newtip{display:inline-flex;align-items:center;gap:9px;margin-top:12px;font-size:12.5px;font-weight:600;color:#7a5410;background:var(--gold-soft);border:1px solid #e7cf8f;border-radius:10px;padding:8px 12px}
+  .newtip .b{font-size:10px;letter-spacing:.06em;background:var(--gold);color:#20180a;padding:2px 7px;border-radius:5px;font-weight:800}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .opt{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:16px 12px;font-weight:700;font-size:15px;text-align:center;min-height:60px;display:flex;align-items:center;justify-content:center}
+  .opt.sel{border-color:var(--gold);background:var(--gold-soft);color:#7a5410;box-shadow:inset 0 0 0 1px var(--gold)}
+  .mtile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:left;min-height:76px}
+  .mtile b{display:block;font-size:15px;font-family:var(--serif);font-weight:600}.mtile small{color:var(--muted);font-size:12px}
+  .mtile.sel{border-color:var(--gold);background:var(--gold-soft);box-shadow:inset 0 0 0 1px var(--gold)}.mtile.sel b{color:#7a5410}
+  .photorow{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+  .thumb{width:66px;height:66px;border-radius:10px;background:linear-gradient(135deg,#efe9db,#fff);border:1px solid var(--line);display:grid;place-items:center;color:var(--muted)}
+  .addphoto{width:100%;border:1px dashed #d4b978;background:var(--gold-soft);color:#7a5410;border-radius:12px;padding:16px;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;gap:9px}
+  .review{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .review .r{display:flex;justify-content:space-between;gap:12px;background:var(--card);padding:13px 15px;font-size:14px}
+  .review .r span{color:var(--muted);font-size:11px;letter-spacing:.05em;text-transform:uppercase;align-self:center;font-weight:700}
+  .review .r b{font-weight:700;text-align:right}
+  .locked{text-align:center;padding:26px 16px}
+  .locked .kk{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .locked .big{font-family:var(--serif);font-size:2.6rem;font-weight:600;letter-spacing:.02em;color:var(--green);margin:6px 0}
+  .statusbox{display:flex;align-items:center;gap:11px;justify-content:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin:18px 0;font-weight:700}
+  .statusbox .dot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+  .appfoot{border-top:1px solid var(--line);padding:13px 16px;background:var(--panel);display:flex;gap:10px}
+  .ghost{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:15px 16px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px}
+  .cta{flex:1;border:0;border-radius:12px;padding:15px;background:var(--green);color:var(--panel);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:9px}
+  .notes{align-self:center;display:grid;gap:20px}
+  .note{display:flex;gap:14px}.note .i{width:42px;height:42px;flex:none;border-radius:11px;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;color:var(--gold);font-size:20px}
+  .note b{font-family:var(--serif);font-size:1.12rem;font-weight:600}.note p{color:var(--muted);font-size:14px;margin:3px 0 0}
+
+  .browser{background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:var(--sh)}
+  .bbar{display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .dot3{display:flex;gap:6px}.dot3 i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+  .url{margin-left:6px;font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:6px 13px;flex:1;max-width:330px}
+  .dash{padding:22px;background:var(--paper)}
+  .dnav{display:flex;gap:2px;margin-bottom:20px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:3px}
+  .dnav button{font-size:13.5px;font-weight:600;color:var(--muted);background:none;border:0;padding:9px 14px;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid transparent;margin-bottom:-4px}
+  .dnav button svg{color:var(--muted2)}
+  .dnav button.on{color:var(--ink);border-bottom-color:var(--gold)}.dnav button.on svg{color:var(--gold)}
+  .view{display:none}.view.on{display:block;animation:fade .25s ease}
+  .heroband{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:center;padding:6px 4px 26px;border-bottom:1px solid var(--line);margin-bottom:24px}
+  @media(max-width:640px){.heroband{grid-template-columns:1fr;gap:18px}}
+  .eb{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:700}
+  .bignum{font-family:var(--serif);font-weight:600;font-size:clamp(2.8rem,7vw,4.2rem);line-height:1;letter-spacing:-.02em;margin-top:8px}
+  .bignum u{text-decoration:none;color:var(--gold);font-size:1.4rem;margin-left:7px;font-family:var(--sans);font-weight:700}
+  .delta{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--green);background:#eaf0e6;border:1px solid #cfdcc6;border-radius:999px;padding:5px 12px;margin-top:13px}
+  .sentence{color:var(--muted);font-size:15px;line-height:1.65;margin-top:15px;max-width:52ch}.sentence b{color:var(--ink);font-weight:700}
+  .spark{display:flex;align-items:flex-end;gap:7px;height:100px}
+  .spark i{flex:1;background:var(--green2);border-radius:5px 5px 0 0;opacity:.24}.spark i.hi{background:var(--gold);opacity:1}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
+  @media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px}
+  .kpi .k{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted2);font-weight:700;margin-bottom:9px}.kpi .k svg{color:var(--gold)}
+  .kpi .v{font-family:var(--serif);font-size:1.8rem;font-weight:600}.kpi .v small{font-family:var(--sans);color:var(--muted);font-size:.78rem;font-weight:600}
+  .controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .pill{font-size:13px;font-weight:700;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 13px;display:inline-flex;align-items:center;gap:7px}
+  .pill.on{color:var(--ink);border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}.pill.on svg{color:var(--gold)}
+  .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;border-radius:10px;padding:10px 14px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+  .btn.solid{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+  .tablecard{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead th{text-align:left;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted2);padding:13px 15px;border-bottom:1px solid var(--line);font-weight:700}
+  tbody td{padding:14px 15px;border-bottom:1px solid var(--line2)}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:var(--card)}
+  td .co{font-weight:700}td .sub{color:var(--muted2);font-size:12.5px;margin-top:2px}
+  .num{font-family:var(--mono);text-align:right;font-size:13px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}@media(max-width:640px){.cards{grid-template-columns:1fr}}
+  .cocard{border:1px solid var(--line);border-radius:14px;padding:17px;background:var(--panel)}
+  .cocard .nm{font-family:var(--serif);font-size:1.25rem;font-weight:600}.cocard .mt{color:var(--muted);font-size:12.5px;margin:2px 0 12px}
+  .cocard .row{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-top:1px solid var(--line2)}.cocard .row span{color:var(--muted)}.cocard .row b{font-family:var(--mono)}
+  .bar{height:8px;border-radius:5px;background:var(--line2);overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--gold)}
+  .mtiles{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}@media(max-width:640px){.mtiles{grid-template-columns:1fr}}
+  .mt{border:1px solid var(--line);border-radius:14px;padding:17px;background:var(--panel)}
+  .mt .h{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:600;font-size:1.1rem}.mt .h svg{color:var(--gold)}
+  .mt .big{font-family:var(--serif);font-size:1.7rem;font-weight:600;margin:10px 0 2px}.mt .sub{color:var(--muted);font-size:12.5px}
+  .feed{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+  .fe{background:var(--panel);padding:14px 16px;display:flex;gap:12px;align-items:center;font-size:13.5px}
+  .fe .t{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted2)}
+  .fe .ico{width:30px;height:30px;border-radius:8px;background:var(--paper);border:1px solid var(--line);display:grid;place-items:center;color:var(--gold);font-size:15px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--panel);font-weight:700;padding:13px 20px;border-radius:11px;box-shadow:0 16px 40px -12px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s;z-index:50;display:flex;align-items:center;gap:9px}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast svg{color:var(--gold)}
+  .foot{padding:44px 0 60px;text-align:center;color:var(--muted2);font-size:13px}.foot b{color:var(--gold)}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v9H3z"/><path d="M14 9h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 15a8 8 0 1 1 16 0"/><path d="M12 15l4-4"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v10"/><path d="M8 11l4 4 4-4"/><path d="M5 19h14"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 13h6M10 16h6"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><path d="M5 9h14v7h-3v3H8v-3H5z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M8 13l4-4 4 4"/><path d="M5 5h14"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 6a3 3 0 0 1 0 6M21 20a6 6 0 0 0-4-5.6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 7l4 4"/></symbol>
+</defs></svg>
+
+<header class="top">
+  <div class="wrap">
+    <div class="logo"><span class="mark">N</span><span><div class="brand-name">Nunjara</div><div class="brand-sub">Load Register</div></span></div>
+    <div class="seg" role="tablist" aria-label="Surface">
+      <button id="tab-site" class="on" onclick="showSurface('site')"><svg class="ic"><use href="#i-truck"/></svg>On site</button>
+      <button id="tab-office" onclick="showSurface('office')"><svg class="ic"><use href="#i-chart"/></svg>In office</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <span class="kick"><span class="ln"></span>Direction B · Ledger — interactive prototype</span>
+    <p><b>Tap through it.</b> Switch <b>On site</b> / <b>In office</b> above. In the app, tap a quick-pick, choose options and hit Next to walk a load to Locked. In the office, move between Reports, Companies, Materials, Trucks and Activity.</p>
+  </div>
+
+  <section id="surface-site" class="surface on">
+    <div class="stage">
+      <div class="tablet"><div class="screen">
+        <div class="apphead"><span class="mark">N</span><b>Nunjara</b><span class="op"><svg class="ic"><use href="#i-check"/></svg>Ack</span></div>
+        <div class="steps" id="steps"></div>
+        <div class="stepnum" id="stepnum">Step <b>1</b> of 6 · Details</div>
+        <div class="body" id="wizbody">
+
+          <div class="pane on" data-step="0">
+            <h3 class="q">Load details</h3><p class="qh">Company, truck rego and where it came from.</p>
+            <div class="fld"><label><svg class="ic"><use href="#i-users"/></svg>Company</label>
+              <input class="inp" id="companyInput" placeholder="ABC Earthmoving">
+              <div class="qp"><span class="l">Quick pick</span>
+                <button class="chip" onclick="pick('Ridgeline Civil')">Ridgeline Civil</button>
+                <button class="chip" onclick="pick('Coastal Earthworks')">Coastal Earthworks</button>
+                <button class="chip" onclick="pick('Northside Haulage')">Northside Haulage</button>
+              </div>
+              <div class="newtip" id="newtip"><span class="b">NEW</span>Tap a name to fill it in — no typing.</div>
+            </div>
+            <div class="fld"><label><svg class="ic"><use href="#i-truck"/></svg>Truck registration</label><input class="inp mono" placeholder="ABC123"></div>
+            <div class="fld"><label><svg class="ic"><use href="#i-pin"/></svg>Origin of materials</label><input class="inp" placeholder="Site, address or paddock"></div>
+          </div>
+
+          <div class="pane" data-step="1">
+            <h3 class="q">Truck configuration</h3><p class="qh">What's carrying the load?</p>
+            <div class="grid2" data-choice="truck">
+              <button class="opt" onclick="choose(this,'truck')">Rigid</button>
+              <button class="opt" onclick="choose(this,'truck')">Semi</button>
+              <button class="opt" onclick="choose(this,'truck')">Truck &amp; Trailer</button>
+              <button class="opt" onclick="choose(this,'truck')">B&nbsp;Double</button>
+              <button class="opt" onclick="choose(this,'truck')">Hookbin</button>
+              <button class="opt" onclick="choose(this,'truck')">Other</button>
+            </div>
+          </div>
+
+          <div class="pane" data-step="2">
+            <h3 class="q">Volume</h3><p class="qh">How much, in cubic metres?</p>
+            <div class="grid3" data-choice="volume">
+              <button class="opt" onclick="choose(this,'volume')">6 m³</button>
+              <button class="opt" onclick="choose(this,'volume')">8 m³</button>
+              <button class="opt" onclick="choose(this,'volume')">10 m³</button>
+              <button class="opt" onclick="choose(this,'volume')">11 m³</button>
+              <button class="opt" onclick="choose(this,'volume')">22 m³</button>
+              <button class="opt" onclick="choose(this,'volume')">Custom</button>
+            </div>
+          </div>
+
+          <div class="pane" data-step="3">
+            <h3 class="q">Material</h3><p class="qh">What's being tipped?</p>
+            <div class="grid2" data-choice="material">
+              <button class="mtile" onclick="chooseM(this)"><b>Clean fill</b><small>Grade A</small></button>
+              <button class="mtile" onclick="chooseM(this)"><b>Clean fill</b><small>Grade B (rock)</small></button>
+              <button class="mtile" onclick="chooseM(this)"><b>Top soil</b><small>Recycled pile</small></button>
+              <button class="mtile" onclick="chooseM(this)"><b>Concrete / brick</b><small>Mixed rubble</small></button>
+            </div>
+          </div>
+
+          <div class="pane" data-step="4">
+            <h3 class="q">Dumped-load photos</h3><p class="qh">Add photos now, or attach them later from History.</p>
+            <button class="addphoto" onclick="addPhoto()"><svg class="ic"><use href="#i-cam"/></svg>Add photo</button>
+            <div class="newtip"><span class="b">TIP</span>They save one at a time — nothing already added is lost.</div>
+            <div class="photorow" id="photorow"></div>
+          </div>
+
+          <div class="pane" data-step="5">
+            <h3 class="q">Review &amp; lock</h3><p class="qh">Once locked, the record can't be quietly changed.</p>
+            <div class="review">
+              <div class="r"><span>Company</span><b id="rv-co">Ridgeline Civil</b></div>
+              <div class="r"><span>Truck</span><b id="rv-truck">Semi</b></div>
+              <div class="r"><span>Volume</span><b id="rv-vol">11 m³</b></div>
+              <div class="r"><span>Material</span><b id="rv-mat">Clean fill — Grade A</b></div>
+              <div class="r"><span>Operator</span><b>Ack</b></div>
+            </div>
+          </div>
+
+          <div class="pane" data-step="6">
+            <div class="locked">
+              <div class="kk">Permanent site record</div>
+              <div class="big">Locked</div>
+              <div class="statusbox"><span class="dot"></span>Uploading to the office…</div>
+              <p style="color:var(--muted);font-size:14px;margin:0">Saved on this iPad. It reaches the office the same minute — or the next time there's signal. Nothing for you to do.</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="appfoot" id="appfoot">
+          <button class="ghost" id="backBtn" onclick="prevStep()" style="display:none"><svg class="ic"><use href="#i-back"/></svg></button>
+          <button class="cta" id="nextBtn" onclick="nextStep()">Next · Truck <svg class="ic"><use href="#i-arrow"/></svg></button>
+        </div>
+      </div></div>
+
+      <div class="notes">
+        <div class="note"><span class="i"><svg class="ic" style="width:22px;height:22px"><use href="#i-upload"/></svg></span><div><b>Records itself</b><p>Locks on the iPad and uploads the same minute — or when signal returns. Nothing to remember to send.</p></div></div>
+        <div class="note"><span class="i"><svg class="ic" style="width:22px;height:22px"><use href="#i-cam"/></svg></span><div><b>Photo evidence</b><p>Dumped-load and receipt photos attach to the record and can't be swapped later.</p></div></div>
+        <div class="note"><span class="i"><svg class="ic" style="width:22px;height:22px"><use href="#i-shield"/></svg></span><div><b>Tamper-evident</b><p>Every load carries an integrity hash; office corrections are append-only.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="surface-office" class="surface">
+    <div class="browser">
+      <div class="bbar"><span class="dot3"><i></i><i></i><i></i></span><span class="url">nunjara.com/register/report</span></div>
+      <div class="dash">
+        <div class="dnav">
+          <button class="on" onclick="showView('reports',this)"><svg class="ic"><use href="#i-chart"/></svg>Reports</button>
+          <button onclick="showView('companies',this)"><svg class="ic"><use href="#i-users"/></svg>Companies</button>
+          <button onclick="showView('materials',this)"><svg class="ic"><use href="#i-layers"/></svg>Materials</button>
+          <button onclick="showView('trucks',this)"><svg class="ic"><use href="#i-truck"/></svg>Trucks</button>
+          <button onclick="showView('activity',this)"><svg class="ic"><use href="#i-doc"/></svg>Activity</button>
+        </div>
+
+        <div class="view on" id="v-reports">
+          <div class="heroband">
+            <div><div class="eb">Last 7 days · volume received</div>
+              <div class="bignum">1,204.00<u>m³</u></div>
+              <div class="delta"><svg class="ic"><use href="#i-arrow"/></svg>+18% on the week before</div>
+              <p class="sentence">across <b>38 loads</b> from <b>3 companies</b>, moved by <b>8 trucks</b> — averaging <b>31.7&nbsp;m³</b> a load and <b>172&nbsp;m³</b> a day.</p>
+            </div>
+            <div class="spark"><i style="height:42%"></i><i style="height:60%"></i><i style="height:36%"></i><i style="height:70%"></i><i style="height:52%"></i><i class="hi" style="height:88%"></i><i style="height:64%"></i></div>
+          </div>
+          <div class="kpis">
+            <div class="kpi"><div class="k"><svg class="ic"><use href="#i-doc"/></svg>Loads</div><div class="v">38</div></div>
+            <div class="kpi"><div class="k"><svg class="ic"><use href="#i-users"/></svg>Companies</div><div class="v">3</div></div>
+            <div class="kpi"><div class="k"><svg class="ic"><use href="#i-truck"/></svg>Trucks</div><div class="v">8</div></div>
+            <div class="kpi"><div class="k"><svg class="ic"><use href="#i-gauge"/></svg>Avg / load</div><div class="v">31.7<small> m³</small></div></div>
+          </div>
+          <div class="controls">
+            <button class="pill on" onclick="range(this)"><svg class="ic"><use href="#i-cal"/></svg>Last 7 days</button>
+            <button class="pill" onclick="range(this)">This month</button>
+            <button class="pill" onclick="range(this)">Custom…</button>
+            <span class="sp"></span>
+            <button class="btn solid" onclick="toast('Exporting 38 records — grouped by company')"><svg class="ic"><use href="#i-download"/></svg>Export CSV · 38</button>
+            <button class="btn" onclick="toast('Building the grouped PDF…')"><svg class="ic"><use href="#i-doc"/></svg>By company</button>
+            <button class="btn" onclick="toast('Opening print view…')"><svg class="ic"><use href="#i-printer"/></svg></button>
+          </div>
+          <div class="tablecard"><table>
+            <thead><tr><th>Company</th><th>Material</th><th>Truck</th><th>From site</th><th class="num">Volume</th><th class="num">When</th></tr></thead>
+            <tbody>
+              <tr><td><div class="co">Ridgeline Civil</div><div class="sub">10 loads · 330 m³</div></td><td>Concrete / brick — mixed</td><td class="mono">XP41HQ</td><td>Somerton Rd</td><td class="num">33.00 m³</td><td class="num">11:58</td></tr>
+              <tr><td><div class="co">Coastal Earthworks</div><div class="sub">2 loads · 44 m³</div></td><td>Clean fill — Grade A</td><td class="mono">AUZ02</td><td>Breakwater</td><td class="num">22.00 m³</td><td class="num">11:19</td></tr>
+              <tr><td><div class="co">Northside Haulage</div><div class="sub">6 loads · 132 m³</div></td><td>Clean fill — Grade A</td><td class="mono">XW12ZV</td><td>Epping</td><td class="num">22.00 m³</td><td class="num">15:48</td></tr>
+              <tr><td><div class="co">Ridgeline Civil</div><div class="sub">Top soil</div></td><td>Top soil — recycled</td><td class="mono">XP40HQ</td><td>Somerton Rd</td><td class="num">33.00 m³</td><td class="num">08:05</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="view" id="v-companies">
+          <div class="cards">
+            <div class="cocard"><div class="nm">Ridgeline Civil</div><div class="mt">10 loads · last in today 11:58</div><div class="bar"><i style="width:100%"></i></div>
+              <div class="row"><span>Volume</span><b>330.00 m³</b></div><div class="row"><span>Trucks</span><b>3</b></div><div class="row"><span>Top material</span><b>Concrete/brick</b></div></div>
+            <div class="cocard"><div class="nm">Northside Haulage</div><div class="mt">6 loads · last in today 15:48</div><div class="bar"><i style="width:40%"></i></div>
+              <div class="row"><span>Volume</span><b>132.00 m³</b></div><div class="row"><span>Trucks</span><b>2</b></div><div class="row"><span>Top material</span><b>Clean fill A</b></div></div>
+            <div class="cocard"><div class="nm">Coastal Earthworks</div><div class="mt">2 loads · last in today 11:19</div><div class="bar"><i style="width:13%"></i></div>
+              <div class="row"><span>Volume</span><b>44.00 m³</b></div><div class="row"><span>Trucks</span><b>2</b></div><div class="row"><span>Top material</span><b>Clean fill A</b></div></div>
+          </div>
+        </div>
+
+        <div class="view" id="v-materials">
+          <div class="mtiles">
+            <div class="mt"><div class="h"><svg class="ic"><use href="#i-layers"/></svg>Clean fill — A</div><div class="big">616.00 <span style="font-size:1rem;color:var(--muted)">m³</span></div><div class="sub">18 loads · 51% of volume</div><div class="bar"><i style="width:51%"></i></div></div>
+            <div class="mt"><div class="h"><svg class="ic"><use href="#i-layers"/></svg>Concrete / brick</div><div class="big">396.00 <span style="font-size:1rem;color:var(--muted)">m³</span></div><div class="sub">12 loads · 33% of volume</div><div class="bar"><i style="width:33%"></i></div></div>
+            <div class="mt"><div class="h"><svg class="ic"><use href="#i-layers"/></svg>Top soil</div><div class="big">192.00 <span style="font-size:1rem;color:var(--muted)">m³</span></div><div class="sub">8 loads · 16% of volume</div><div class="bar"><i style="width:16%"></i></div></div>
+          </div>
+        </div>
+
+        <div class="view" id="v-trucks">
+          <div class="tablecard"><table>
+            <thead><tr><th>Rego</th><th>Company</th><th class="num">Loads</th><th class="num">Volume</th><th class="num">Last seen</th></tr></thead>
+            <tbody>
+              <tr><td class="mono co">XP41HQ</td><td>Ridgeline Civil</td><td class="num">4</td><td class="num">132 m³</td><td class="num">11:58</td></tr>
+              <tr><td class="mono co">XW12ZV</td><td>Northside Haulage</td><td class="num">4</td><td class="num">88 m³</td><td class="num">15:48</td></tr>
+              <tr><td class="mono co">XP40HQ</td><td>Ridgeline Civil</td><td class="num">3</td><td class="num">99 m³</td><td class="num">11:36</td></tr>
+              <tr><td class="mono co">AUZ02</td><td>Coastal Earthworks</td><td class="num">1</td><td class="num">22 m³</td><td class="num">11:19</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="view" id="v-activity">
+          <div class="feed">
+            <div class="fe"><span class="ico"><svg class="ic"><use href="#i-check"/></svg></span><div><b>Load synced</b> — Ridgeline Civil · XP41HQ · 33 m³</div><span class="t">2m ago</span></div>
+            <div class="fe"><span class="ico"><svg class="ic"><use href="#i-cam"/></svg></span><div><b>Photo attached</b> — Northside Haulage · XW12ZV</div><span class="t">14m ago</span></div>
+            <div class="fe"><span class="ico"><svg class="ic"><use href="#i-edit"/></svg></span><div><b>Correction</b> — material fixed on load #7f71 <span style="color:var(--muted)">· reason kept</span></div><span class="t">1h ago</span></div>
+            <div class="fe"><span class="ico"><svg class="ic"><use href="#i-download"/></svg></span><div><b>Daily CSV emailed</b> — accounts@nunjara.com</div><span class="t">6:00am</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast"><svg class="ic"><use href="#i-check"/></svg><span id="toastmsg"></span></div>
+<footer class="foot"><div class="wrap">Nunjara Load Register — Direction B · <b>LEDGER</b> · interactive prototype</div></footer>
+
+<script>
+  var STEPS=["Details","Truck","Volume","Material","Photos","Lock"];
+  var LABELS=["Truck","Volume","Material","Photos","Review","Lock record"];
+  var step=0, photos=0, maxReached=0;
+  function buildSteps(){
+    var s=document.getElementById('steps'); s.innerHTML='';
+    for(var i=0;i<6;i++){ var sg=document.createElement('span'); sg.className='sg'+(i<step?' done':'')+(i===step?' now':''); s.appendChild(sg); }
+    var sn=document.getElementById('stepnum');
+    sn.innerHTML = step>=6 ? 'Record <b>locked</b>' : 'Step <b>'+(step+1)+'</b> of 6 · '+STEPS[step];
+  }
+  function showPane(){ document.querySelectorAll('#wizbody .pane').forEach(function(p){p.classList.toggle('on',+p.dataset.step===step);});
+    var back=document.getElementById('backBtn'), next=document.getElementById('nextBtn');
+    back.style.display= step>0 && step<6 ? 'inline-flex':'none';
+    if(step>=6){ next.innerHTML='Start next load'; next.onclick=resetWiz; }
+    else if(step===5){ next.innerHTML='Lock record <svg class="ic"><use href="#i-check"/></svg>'; next.onclick=nextStep; }
+    else { next.innerHTML='Next · '+LABELS[step]+' <svg class="ic"><use href="#i-arrow"/></svg>'; next.onclick=nextStep; }
+  }
+  function nextStep(){ if(step<6){ step++; maxReached=Math.max(maxReached,step); if(step===6) toast('Load locked & uploading'); buildSteps(); showPane(); } }
+  function prevStep(){ if(step>0){ step--; buildSteps(); showPane(); } }
+  function resetWiz(){ step=0; maxReached=0; photos=0; document.getElementById('photorow').innerHTML=''; buildSteps(); showPane(); }
+  function pick(name){ document.getElementById('companyInput').value=name; document.getElementById('rv-co').textContent=name; document.getElementById('newtip').style.display='none'; toast(name+' selected'); }
+  function choose(el,grp){ el.parentNode.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel');}); el.classList.add('sel');
+    if(grp==='truck') document.getElementById('rv-truck').textContent=el.textContent.trim();
+    if(grp==='volume') document.getElementById('rv-vol').textContent=el.textContent.trim(); setTimeout(nextStep,180); }
+  function chooseM(el){ el.parentNode.querySelectorAll('.mtile').forEach(function(o){o.classList.remove('sel');}); el.classList.add('sel');
+    document.getElementById('rv-mat').textContent=el.querySelector('b').textContent+' — '+el.querySelector('small').textContent; setTimeout(nextStep,180); }
+  function addPhoto(){ if(photos>=4){toast('That’s plenty');return;} photos++;
+    var t=document.createElement('div'); t.className='thumb'; t.innerHTML='<svg class="ic" style="width:22px;height:22px"><use href="#i-cam"/></svg>';
+    document.getElementById('photorow').appendChild(t); toast('Photo '+photos+' saved'); }
+  function showSurface(s){ document.getElementById('surface-site').classList.toggle('on',s==='site');
+    document.getElementById('surface-office').classList.toggle('on',s==='office');
+    document.getElementById('tab-site').classList.toggle('on',s==='site');
+    document.getElementById('tab-office').classList.toggle('on',s==='office'); window.scrollTo({top:0,behavior:'smooth'}); }
+  function showView(v,btn){ document.querySelectorAll('.view').forEach(function(x){x.classList.remove('on');});
+    document.getElementById('v-'+v).classList.add('on');
+    btn.parentNode.querySelectorAll('button').forEach(function(b){b.classList.remove('on');}); btn.classList.add('on'); }
+  function range(btn){ btn.parentNode.querySelectorAll('.pill').forEach(function(b){b.classList.remove('on');}); btn.classList.add('on'); toast('Range: '+btn.textContent.trim()); }
+  var tmo; function toast(msg){ var t=document.getElementById('toast'); document.getElementById('toastmsg').textContent=msg; t.classList.add('show'); clearTimeout(tmo); tmo=setTimeout(function(){t.classList.remove('show');},1900); }
+  buildSteps(); showPane();
+</script>
+
+</body></html>
