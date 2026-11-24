@@ -1,4 +1,4 @@
-# Big Media case studies: all copy, stats and image choices.
+# Big Digital work site: all copy, stats and image choices.
 # Figures come from the builds themselves: page counts and edit history from the repos,
 # counts read off the live apps. Nothing here is a client result we haven't seen.
 
