@@ -2,14 +2,17 @@
    python3 src/build.py  ->  index.html and <slug>/index.html"""
 import html, os, re, sys
 sys.path.insert(0, os.path.dirname(__file__))
-from content import STUDIES, BRAND, RESULTS, GROWTH, FEATURED_GROWTH, TESTIMONIALS, SERVICES, CLIENTS
+from content import STUDIES, BRAND, RESULTS, GROWTH, FEATURED_GROWTH, TESTIMONIALS, SERVICES, CLIENTS, MORE, AGG_PAGES, AGG_EDITS
 e = html.escape
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NAME = BRAND['name']                 # one switch for the brand name shown across the site
 SITE_URL = 'https://rdodeployme.github.io/big-media-case-studies/'
 CONTACT = '#contact'                 # the audit form lives on the home page
-DARK = {'yarta':'#b5631a','recycle-group':'#c45a22','echeck':'#0f9a49','recycled-metals':'#4f5f6c','t-waste':'#10a845','nunjara':'#a87510'}
-FILT = {'yarta':'web app','recycle-group':'web','echeck':'app','recycled-metals':'web','t-waste':'web brand','nunjara':'app'}
+DARK = {'yarta':'#b5631a','recycle-group':'#c45a22','echeck':'#0f9a49','recycled-metals':'#4f5f6c','t-waste':'#10a845','nunjara':'#a87510',
+        'truckrentals':'#0B3BC4','trash':'#E8E200','declutter':'#234d3a','no-more-dumping':'#AF1D14'}
+FILT = {'yarta':'web app','recycle-group':'web','echeck':'app','recycled-metals':'web','t-waste':'web brand','nunjara':'app',
+        'truckrentals':'web app','trash':'web app','declutter':'web brand','no-more-dumping':'app web'}
+WORDS = {6:'Six',7:'Seven',8:'Eight',9:'Nine',10:'Ten',11:'Eleven',12:'Twelve'}
 
 NE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>'
 AR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
@@ -171,7 +174,7 @@ def study(i, s):
 def index():
     cards = ''.join(f'''<a class="card rv{' d1' if k % 2 else ''}" href="{s['slug']}/" data-f="{FILT[s['slug']]}" style="--c:{s['accent']}">
 <span class="shot"><img src="img/{s['hero']}.webp" alt="{e(s['name'])}: {e(s['kicker'])}" loading="lazy" width="1600" height="1000"></span>
-<span class="row1"><span class="metric"><span class="dot"></span>{e(s['stats'][0][0])} {e(s['stats'][0][1])}</span><span class="n">0{k+1}</span></span>
+<span class="row1"><span class="metric"><span class="dot"></span>{e(s['stats'][0][0])} {e(s['stats'][0][1])}</span><span class="n">{k+1:02d}</span></span>
 <h3>{e(s['name'])}</h3><p>{e(s['service'])} · {e(s['kicker'])}</p><span class="go">{NE}</span></a>''' for k, s in enumerate(STUDIES))
     reel = ''.join(f'<img src="img/{im}.webp" alt="" loading="lazy">' for s in STUDIES for im in [s['features'][0][2], s['gallery'][0][0]]) * 2
     marq = ''.join(f'<span>{e(c)}</span>' for c in CLIENTS) * 2
@@ -187,8 +190,11 @@ def index():
     svc = ''.join(f'''<a class="s rv{' d1' if k % 4 == 1 else ' d2' if k % 4 == 2 else ' d3' if k % 4 == 3 else ''}" href="{e(u)}" target="_blank" rel="noopener" style="--t:{t}">
 <span class="num">0{k+1}</span><h3>{e(n)}</h3><p>{e(line)}</p><span class="txt">Read more {AR}</span></a>''' for k, (n, line, u, t) in enumerate(SERVICES))
     svc += f'''<div class="s cta-s rv d3"><span class="num" style="color:var(--lime)">?</span><h3>Not sure where to start?</h3><p>Get a free audit of your website and ads. We’ll show you the biggest wins first.</p>{btn('Get Your Free Audit', CONTACT)}</div>'''
+    more = ''.join(f'''<a class="mt rv{' d1' if k % 3 == 1 else ' d2' if k % 3 == 2 else ''}" href="{e(u)}" target="_blank" rel="noopener">
+<span class="mi"><img src="img/{im}.webp" alt="{e(n)}" loading="lazy" width="800" height="500"></span>
+<span class="mx"><b>{e(n)}</b><span>{e(d)}</span></span><span class="go">{NE}</span></a>''' for k, (n, d, u, im) in enumerate(MORE))
     opts = ''.join(f'<label><input type="checkbox" name="need" value="{e(o)}"><span>{e(o)}</span></label>' for o in ['Website', 'Custom app', 'Google Ads', 'Social ads', 'SEO & AI search', 'Automation'])
-    total_pages = sum(int(s['stats'][0][0]) for s in STUDIES if s['stats'][0][1] == 'pages built') + 9  # + T-Waste's nine pages
+    count_word = WORDS.get(len(STUDIES), str(len(STUDIES)))
     body = f'''
 <main>
 <section class="hero pat">
@@ -200,17 +206,20 @@ def index():
   <div class="hero-sub"><img class="ast spin" src="img/bd-asterisk.svg" alt="" width="150" height="150">
     <div class="rv d3"><p>Websites, apps and systems for Aussie businesses that move real things: trucks, tonnes, safety checks and sales. Hand-built by a senior team, with no templates and no subscriptions. Here’s the work, and why it works.</p>
     <div class="ctas">{btn('Get Your Free Audit', CONTACT)}{btn('See The Work', '#work', 'ghost')}</div></div></div>
-  <div class="agg countme rv"><div><b data-n="6">6</b><span>builds in this portfolio</span></div><div><b data-n="{total_pages}">{total_pages}</b><span>pages built</span></div><div><b data-n="335">335</b><span>edits shipped</span></div><div><b data-n="2">2</b><span>days, fastest launch</span></div></div>
+  <div class="agg countme rv"><div><b data-n="{len(STUDIES)}">{len(STUDIES)}</b><span>case studies</span></div><div><b data-n="{AGG_PAGES}">{AGG_PAGES}</b><span>pages built</span></div><div><b data-n="{AGG_EDITS}">{AGG_EDITS}</b><span>edits shipped</span></div><div><b data-n="2">2</b><span>days, fastest launch</span></div></div>
   </div>
   <div class="reel" aria-hidden="true"><div class="tr">{reel}</div></div>
   <div class="marq"><div class="lbl">Helping Aussie homegrown businesses thrive</div><div class="tr" aria-hidden="true">{marq}</div></div>
 </section>
 
 <section class="sec light" id="work"><div class="wrap">
-  <div class="sec-head"><div><div class="k rv">Selected builds</div><h2 class="h2 rv d1">Six builds. <em>Zero templates.</em></h2>
+  <div class="sec-head"><div><div class="k rv">Selected builds</div><h2 class="h2 rv d1">{count_word} builds. <em>Zero templates.</em></h2>
   <p class="lead rv d2">Each one hand-built around how the business actually works. Open any of them for the brief, the build, the screens and a live demo.</p></div>
   <div class="filters rv" role="group" aria-label="Filter the work"><button class="chip" data-f="all" aria-pressed="true">All work</button><button class="chip" data-f="web" aria-pressed="false">Websites</button><button class="chip" data-f="app" aria-pressed="false">Apps</button><button class="chip" data-f="brand" aria-pressed="false">Brand</button></div></div>
   <div class="cards">{cards}</div>
+  <div class="more" id="more-sites"><div class="more-head"><div><div class="k rv">More sites, live now</div><h3 class="rv d1">Plus {len(MORE)} more brand sites, <em>each one hand-built.</em></h3></div>
+  <p class="rv d2">No templates here either. Tap any of them to open the live site.</p></div>
+  <div class="mgrid">{more}</div></div>
 </div></section>
 
 <section class="results" style="background-image:url(img/bd-results.webp)"><div class="wrap">

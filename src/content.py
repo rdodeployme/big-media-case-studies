@@ -155,6 +155,130 @@ STUDIES = [
  ),
 ]
 
+# ---- added 24 Nov 2026: four more builds. Figures from each repo (pages, commits) and the live sites.
+STUDIES += [
+ dict(
+  slug='truckrentals', name='TruckRentals', client='TruckRentals.com.au (Recycle Group)', service='Marketplace web app', year='2026',
+  accent='#1450F5', ink='#FFFFFF',
+  kicker='Truck rental marketplace',
+  title='A truck marketplace that checks your licence before you book.',
+  line='A two-sided marketplace where owners rent out their utes, vans and trucks, and renters find one their licence covers, priced upfront.',
+  url='https://rdodeployme.github.io/truckhire-com-au/', urltext='Live preview',
+  embed='https://rdodeployme.github.io/truckhire-com-au/', embed_label='The TruckRentals marketplace, live',
+  hero='truck-hero',
+  stats=[('15','pages built'),('14','trucks listed'),('6','licence classes covered'),('2','sides: renters and owners')],
+  problem='Plenty of utes, vans and trucks sit parked on their days off, while people with a job on can’t easily find the right size truck, or tell whether their licence even covers it.',
+  goal='One marketplace for both sides: renters find a truck their licence allows, see the full price and book in minutes, and owners approve every rental and earn from idle days.',
+  features=[
+   ('Licence first','Tap your licence class and see only the trucks you can legally drive, matched by GVM. A licence guide explains every class, from a car licence to multi-combination.','truck-licence','Tap your licence class, see only the trucks it covers'),
+   ('Not sure what size?','Pick what you’re moving, from a studio apartment to pallets of stock or a load of soil, and it suggests a truck size and shows the matches.','truck-size','The size finder: tell it what’s going in'),
+   ('Checks built into checkout','Six steps: trip, driver, checks, cover, payment, done. Kilometres, cover, fees and the bond are all on screen before anyone pays.','truck-book','Checkout: every cost on screen before you pay'),
+   ('Owners stay in control','Owners see what an idle truck could earn, approve every rental, block out their own days and get paid after each job.','truck-owner','For owners: what could your truck earn?'),
+  ],
+  gallery=[('truck-list','Trucks for rent, filtered by licence'),('truck-detail','A truck page: specs, availability and the full price'),('truck-guide','The licence guide: what can I drive?'),('truck-checked','Checked on both sides: drivers, trucks and owners')],
+  phones=['truck-m2','truck-m1','truck-m3'],
+  timeline=[],
+  outcome='A 15-page, two-sided marketplace prototype: search, truck pages, a six-step checkout with licence checks, owner listings and a dashboard. Listings are samples, and payments and ID checks are simulated.',
+  scope=['Marketplace design','UX and UI','Booking flow','Licence logic','Copywriting','Build'],
+  stack='Hand-built HTML, CSS and JavaScript, mobile-first. Hosted on GitHub Pages.',
+ ),
+ dict(
+  slug='trash', name='Trash', client='Trash.com.au (Recycle Group)', service='Booking funnel', year='2026',
+  accent='#FFF800', ink='#0A0A0A',
+  kicker='Bulky item booking',
+  title='Pick the item, see the price, book the pickup.',
+  line='A fixed-price booking funnel for bulky household items. No photos, no measuring, no quote forms and no callbacks.',
+  url='https://rdodeployme.github.io/trash-booking/', urltext='Live preview',
+  embed='https://rdodeployme.github.io/trash-booking/', embed_label='The Trash booking funnel, live',
+  hero='trash-cart',
+  stats=[('61','items, fixed prices'),('417','postcodes served'),('0','photos or measuring'),('3','test suites on the prices')],
+  problem='Getting rid of one big item usually means sending photos, guessing cubic metres and waiting on a call back for a quote.',
+  goal='Let people pick the exact item, see an all-in price straight away and book online, with prices that are always right.',
+  features=[
+   ('Every item has a price','61 items in 11 categories, from mattresses to pianos, each with an all-in price and no call-out fee. The total updates as you add.','trash-items','Pick a category, and the price updates as you go'),
+   ('Postcode first','The first step checks the collection postcode against the real service area: 417 postcodes within 150 km of Geelong. Mixed loads and clean-outs get handed to JUNK.','trash-postcode','Step one: we check we collect from you'),
+   ('A booking, not a quote','Items go into a running cart, then three quick questions on stairs, urgency and dismantling, all priced up front.','trash-questions','Three quick questions, priced up front'),
+   ('Prices that can’t drift','The supplied price list lives with the code. Tests check that the browser, the server and that list all agree, so a typo fails a test instead of reaching a customer.','trash-cats','Every price on screen comes from the supplied list'),
+  ],
+  gallery=[('trash-hero','Home: need something big gone?'),('trash-steps','Select it. Book it. We collect it. We recycle it.')],
+  phones=['trash-m2','trash-m1','trash-m3'],
+  timeline=[('1:57 pm','Booking funnel built, 10 Aug'),('3:14 pm','New price list: 61 items, all-in, no call-out fee'),('3:24 pm','A parity test that catches price drift'),('3:48 pm','Real service area: 417 postcodes')],
+  outcome='A fixed-price booking funnel with 61 priced items, a 417-postcode service area and automated tests that check every price against the supplied list.',
+  scope=['Booking UX','Pricing engine','Service area','Item icons','Automated tests','Build'],
+  stack='Static front end with a small PHP back end, the same set-up as the group’s other sites, plus automated pricing tests.',
+ ),
+ dict(
+  slug='declutter', name='Declutter', client='Declutter.com.au (Recycle Group)', service='Brand refresh + website', year='2026',
+  accent='#D9A441', ink='#1B2F26',
+  kicker='Decluttering, run by women',
+  title='A warmer brand for a service run by women.',
+  line='A six-page site in a single file for Declutter.com.au: decluttering, downsizing and rubbish removal, run by women.',
+  url='https://rdodeployme.github.io/declutter-website/', urltext='Live preview',
+  embed='https://rdodeployme.github.io/declutter-website/', embed_label='The Declutter site, live',
+  hero='dec-hero',
+  stats=[('6','pages in one file'),('5','services'),('4','colour palettes tested'),('8','NDIS trust marks')],
+  problem='Letting someone into your home to sort through your things is personal, and most rubbish removal brands look and sound like trucks and tonnes. The old site also still had placeholder service copy.',
+  goal='A calm, warm site that says up front it’s run by women, explains each service plainly and makes the first step easy.',
+  features=[
+   ('Said plainly, up front','The first line says it: an all-women team. Then it answers the real worries before anyone books: who turns up, being judged, and whether everything gets thrown out.','dec-personal','The questions people actually ask, answered first'),
+   ('Five services, plain English','Decluttering and organising, downsizing and moving, deceased estates, hoarding and squalor support, and rubbish removal, each with its own page.','dec-services','Five services, each with its own page'),
+   ('Three simple steps','Make a time to talk, a home visit and written plan, then reduce and remove. A fixed-price consultation, with clear costs after that.','dec-steps','How it works: talk, plan, then reduce and remove'),
+   ('Trust where it counts','Registered NDIS provider marks in eight key places, how NDIS funding works in plain words, and landfill as the last resort.','dec-ndis','Registered NDIS provider, explained simply'),
+  ],
+  gallery=[('dec-space','Most organisers leave you with piles. We leave you with space.'),('dec-before','Before and after, with stand-in photos until real job shots are ready')],
+  phones=['dec-m2','dec-m1','dec-m3'],
+  timeline=[('11 Sep','Brief, copy and first build'),('29 Sep','Forest-and-honey palette and NDIS marks, published')],
+  outcome='A six-page site in a single file that says it’s run by women from the first line, live on GitHub Pages with no build step.',
+  scope=['Positioning','Copywriting','UX and UI','Palette exploration','Build'],
+  stack='One HTML file with every page inside it, hash-routed. Hosted on GitHub Pages. Stand-in photos until real team and job shots are ready.',
+ ),
+ dict(
+  slug='no-more-dumping', name='No More Dumping', client='No More Dumping (Recycle Group)', service='Reporting app + council console', year='2026',
+  accent='#D8261C', ink='#FFFFFF',
+  kicker='Dumped rubbish reporting',
+  title='Report dumped rubbish in three taps, then watch the clock.',
+  line='A three-tap reporting app, live map and council console for dumped rubbish, with a public clock that runs until it’s collected.',
+  url='https://rdodeployme.github.io/no-com-au/', urltext='Live preview',
+  embed='https://rdodeployme.github.io/no-com-au/', embed_label='No More Dumping, live',
+  hero='nmd-hero',
+  stats=[('11','pages built'),('3','council pitch pages'),('5','print-ready PDFs'),('17','edits shipped')],
+  problem='Dumped rubbish sits on footpaths and roadsides because reporting it is a chore, it’s rarely clear who’s responsible, and nobody can see how long it’s been there.',
+  goal='Make reporting take under a minute, send each report to whoever is responsible, and put the response time where everyone can see it.',
+  features=[
+   ('Three taps, no app','Snap a photo, pin the spot, tap what it is. No download, no account and no forms, made for someone standing on a footpath with one hand free.','nmd-taps','Snap it, pin it, tap what it is'),
+   ('A clock that runs in public','Every report goes to whoever is responsible, and a public clock counts up until it’s collected. Anyone can see how long it’s been there.','nmd-clock','On the clock right now: every open report, counting up'),
+   ('A console for whoever owns the land','Councils and land managers get an inbox of reports with photos, owner, status and time open, so crews know what to clear first.','nmd-console','The council console: every report, its owner and its clock'),
+   ('Sold council by council','Pitch pages for Greater Geelong, Hepburn and Hobsons Bay, a one-pager for each council and an A3 hotspot sign, ready to hand over.','nmd-geelong','A pitch page made for Greater Geelong'),
+  ],
+  gallery=[('nmd-after','After you hit send: the recovery receipt'),('nmd-map','The live map'),('nmd-councils','For councils and land managers'),('nmd-rid','Get rid of stuff: the legal ways, best option first')],
+  phones=['nmd-m2','nmd-m1','nmd-m3'],
+  timeline=[('4 Oct','First build: reporting, live map and council console'),('7 Oct','Council pitch pages, one-pagers and the A3 hotspot sign'),('5 Nov','Crews and in-the-news sections on the home page'),('19 Nov','Bug pass: booking windows, photos and share links')],
+  outcome='An 11-page prototype: the resident reporting app, a live map, a council console and pitch pages for three councils, plus print material ready to hand over.',
+  scope=['Service design','UX and UI','Council console','Print design','Copywriting','Build'],
+  stack='Hand-built HTML, CSS and JavaScript. Hosted on GitHub Pages.',
+ ),
+]
+# Mix the brands so the list doesn't open with five recycling sites in a row.
+ORDER = ['yarta','truckrentals','recycle-group','trash','echeck','declutter','recycled-metals','no-more-dumping','t-waste','nunjara']
+STUDIES.sort(key=lambda s: ORDER.index(s['slug']))
+
+# Home-page totals across all builds (pages and commits from each repo).
+AGG_PAGES = 187   # 153 for the first six + 15 TruckRentals + 2 Trash + 6 Declutter + 11 No More Dumping
+AGG_EDITS = 373   # 335 for the first six + 2 + 7 + 12 + 17
+
+# "More sites" strip: live builds shown as tiles, no write-up.
+MORE = [
+  ('Timbercycle', 'Timber pallet recovery, reuse and recycling across Victoria.', 'https://rdodeployme.github.io/timbercycle-site/', 'more-timbercycle'),
+  ('Vape Recyclers', 'Safe vape collection bins and drop-off.', 'https://rdodeployme.github.io/vaperecyclers-com-au/', 'more-vape'),
+  ('BuildersBins', 'One recycling station on every new home site.', 'https://rdodeployme.github.io/buildbin-com-au/', 'more-buildbin'),
+  ('Reforge Metals', 'Recycled steel and non-ferrous metal, supplied nationally.', 'https://rdodeployme.github.io/reforge-metals/', 'more-reforge'),
+  ('Eco Plastics', 'Plastic recycling for bins, pallets, crates, IBCs and pipe.', 'https://rdodeployme.github.io/eco-plastics/', 'more-ecoplastics'),
+  ('Corio Metals', 'Scrap metal drop-off in North Geelong and commercial pickups.', 'https://rdodeployme.github.io/corio-metals/', 'more-corio'),
+  ('Westerly Metals', 'Scrap metal drop-off at Moorabool, 6am to 6pm, 7 days.', 'https://rdodeployme.github.io/westerly-metals/', 'more-westerly'),
+  ('LG Recycling', 'Soil recycling and land rehabilitation near Ararat.', 'https://rdodeployme.github.io/Langi-Ghiran/', 'more-lg'),
+  ('SHRED', 'Industrial shredding for difficult material streams.', 'https://rdodeployme.github.io/shred-onepager/', 'more-shred'),
+]
+
 # Words to pick out in lime in each case-study headline.
 HL = {
  'yarta': 'before the first meeting.',
@@ -163,6 +287,10 @@ HL = {
  'recycled-metals': 'weighed and reported.',
  't-waste': 'live in two days.',
  'nunjara': 'in six taps.',
+ 'truckrentals': 'before you book.',
+ 'trash': 'book the pickup.',
+ 'declutter': 'run by women.',
+ 'no-more-dumping': 'watch the clock.',
 }
 for _s in STUDIES:
     _s['hl'] = HL.get(_s['slug'], '')
