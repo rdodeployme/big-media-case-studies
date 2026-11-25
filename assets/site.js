@@ -67,13 +67,13 @@
       const v=n=>(form.elements[n]&&form.elements[n].value||'').trim();
       const missing=[];if(!v('name'))missing.push('your name');
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email')))missing.push('a valid email');
-      if(!v('message'))missing.push('what’s slowing you down');
-      if(missing.length){err.style.color='';err.textContent='Please add '+missing.join(', ')+'.';const first=form.querySelector(!v('name')?'#f-name':!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email'))?'#f-email':'#f-msg');first&&first.focus();return}
+      const rq=form.dataset.req||'message';if(!v(rq))missing.push(rq==='website'?'your website':'what’s slowing you down');
+      if(missing.length){err.style.color='';err.textContent='Please add '+missing.join(', ')+'.';const first=form.querySelector(!v('name')?'#f-name':!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email'))?'#f-email':rq==='website'?'#f-site':'#f-msg');first&&first.focus();return}
       err.textContent='';
       const needs=$$('input[name=need]:checked',form).map(c=>c.value).join(', ')||'Not sure yet';
       const lines=['Hi Big Digital,','','I’d like a free website and ads audit.','',
         'Name: '+v('name'),'Business: '+(v('business')||'-'),'Email: '+v('email'),'Mobile: '+(v('phone')||'-'),'Website: '+(v('website')||'-'),'Help with: '+needs,'',
-        'What’s slowing us down:',v('message'),'','Sent from the Big Digital work site.'];
+        'What’s slowing us down:',v('message')||'-','','Sent from the Big Digital work site.'];
       const subject='Free audit request: '+(v('business')||v('name'));
       location.href='mailto:'+form.dataset.to+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(lines.join('\n'));
       err.style.color='var(--lime)';err.textContent='Your email app should now be open with the request ready to send.';

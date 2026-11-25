@@ -275,6 +275,58 @@ def index():
         head(f'Our Work | {NAME}', f'Websites, apps and growth results from {NAME}: senior-led digital for Australian businesses. Get a free website and ads audit.', '') + body + footer(''))
 
 
+def audit_page():
+    pre = '../'
+    picks = [t for t in TESTIMONIALS if t[1] in ('Mathew Y.', 'Dean E.')]
+    quotes = ''.join(f"""<figure class="q rv{' d1' if k % 2 else ''}"><div><div class="stars" aria-label="5 stars">{STAR * 5}</div><blockquote>“{e(q)}”</blockquote></div>
+<figcaption class="who"><img src="{pre}img/{av}.webp" alt="" width="52" height="52" loading="lazy"><div><b>{e(n)}</b><span>{e(r)}, {e(c)}</span></div></figcaption></figure>""" for k, (q, n, r, c, av) in enumerate(picks))
+    body = f"""<main>
+<section class="au pat"><div class="wrap">
+  <div class="au-grid">
+  <div>
+    <div class="k rv">Free video audit</div>
+    <h1 class="rv d1">Send us your website. <em>We’ll send back a video.</em></h1>
+    <p class="lead rv d2">A senior specialist goes through your site on screen and shows you where enquiries are getting lost and what we’d fix first. It’s free, and you don’t need to sit through a meeting.</p>
+    <ol class="steps rv d3">
+      <li><div><b>Paste your website</b>Add your name and email so we know where to send it.</div></li>
+      <li><div><b>We record the review</b>Someone senior looks at your site on a phone and a desktop, and at your ads if you run them.</div></li>
+      <li><div><b>You get the video</b>The biggest fixes first, in plain English. Use them yourself or ask us to do it.</div></li>
+    </ol>
+  </div>
+  <form class="ct-form rv d1" id="audit-form" novalidate data-to="{BRAND['email']}" data-req="website">
+    <h3>Get my free audit</h3><p class="sub">Takes about a minute.</p>
+    <div class="fld"><label for="f-site">Your website *</label><input id="f-site" name="website" inputmode="url" autocomplete="url" required placeholder="yourbusiness.com.au"></div>
+    <div class="f2"><div class="fld"><label for="f-name">Your name *</label><input id="f-name" name="name" autocomplete="name" required placeholder="Jane Smith"></div>
+    <div class="fld"><label for="f-email">Email *</label><input id="f-email" name="email" type="email" autocomplete="email" required placeholder="you@business.com.au"></div></div>
+    <div class="f2"><div class="fld"><label for="f-biz">Business</label><input id="f-biz" name="business" autocomplete="organization" placeholder="Business name"></div>
+    <div class="fld"><label for="f-phone">Mobile</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="04xx xxx xxx"></div></div>
+    <div class="fld"><label for="f-msg">Anything you want us to look at?</label><textarea id="f-msg" name="message" style="min-height:84px" placeholder="e.g. Plenty of visitors but not many calls."></textarea></div>
+    <button class="btn big" type="submit">Send My Website<span class="ic">{NE}</span></button>
+    <p class="err" role="alert" aria-live="polite"></p>
+    <p class="note">This opens your email app with everything filled in, addressed to {BRAND['email']}.</p>
+  </form>
+  </div>
+</div></section>
+<section class="sec light"><div class="wrap">
+  <div class="au-what">
+    <div><div class="k rv">What you get</div><h2 class="h2 rv d1">Your site, <em>reviewed on screen.</em></h2>
+    <p class="lead rv d2">We circle what’s costing you enquiries and tell you what we’d change. This clip shows the format on a made-up website.</p>
+    <ul class="ticks au-ticks rv d3"><li>No lock-in contracts</li><li>Senior specialists only, no juniors</li><li>No sales pressure</li></ul></div>
+    <video class="rv d1" src="{pre}assets/audit-example.mp4" poster="{pre}img/audit-poster.webp" autoplay muted loop playsinline preload="metadata" width="1080" height="1350" aria-label="Example of a video audit on a made-up website"></video>
+  </div>
+</div></section>
+<section class="sec light" style="padding-top:0"><div class="wrap">
+  <div class="k rv">Clients</div><h2 class="h2 rv d1">What happened <em>after the fixes.</em></h2>
+  <div class="quotes">{quotes}</div>
+  <div style="margin-top:44px" class="rv">{btn('Get My Free Audit', '#audit-form', 'dark')}</div>
+</div></section>
+</main>"""
+    os.makedirs(os.path.join(ROOT, 'audit'), exist_ok=True)
+    open(os.path.join(ROOT, 'audit', 'index.html'), 'w').write(
+        head(f'Free Video Audit | {NAME}', f'Send {NAME} your website and get a free video review back: where enquiries are getting lost and what to fix first. No meeting needed.', pre) + body + footer(pre))
+
+
 for i, s in enumerate(STUDIES): study(i, s)
 index()
+audit_page()
 print('built', len(STUDIES), 'case studies + index')
